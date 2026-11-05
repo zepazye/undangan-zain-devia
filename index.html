@@ -1,130 +1,570 @@
-<!-- COVER MODAL -->
-<div class="cover-modal" id="coverModal">
-  <div class="cover-card">
-    <div class="scallop-border">
-      <p style="letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">The Wedding Of</p>
-      <h1 class="title-script" style="margin: 15px 0;">Zain & Devia</h1>
-      <p style="font-size: 0.9rem; color: var(--text-muted);">Selasa, 12 Januari 2026</p>
-      <button class="btn-open" onclick="openInvitation()">
-        <i data-lucide="mail-open"></i> Buka Undangan
-      </button>
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan Digital - Zain & Devia</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage: {
+              50: '#F4F7F4',
+              100: '#E7ECE7',
+              200: '#C9D6CB',
+              600: '#6B7F6F',
+              700: '#5C6F60',
+              800: '#4A5D4E',
+              900: '#2C3A2F',
+            },
+            cream: {
+              50: '#FAF8F5',
+              100: '#F8F5EE',
+              200: '#EFEAE0',
+              300: '#E4DDD0',
+            },
+            pinkAccent: '#E09BB0',
+            goldAccent: '#C5A059'
+          },
+          fontFamily: {
+            script: ['Alex Brush', 'cursive'],
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scalloped Border Edge Effect */
+    .scalloped-card {
+      background-color: #F8F5EE;
+      position: relative;
+      background-image: radial-gradient(circle at 10px 10px, transparent 8px, #F8F5EE 9px);
+      background-size: 20px 20px;
+      background-position: -10px -10px;
+      border: 1px solid #E4DDD0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .scalloped-inner {
+      border: 1.5px dashed #A3B1A5;
+      border-radius: 4px;
+    }
+
+    /* Envelope Visual Components */
+    .envelope-body {
+      background-color: #4A5D4E;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .envelope-flap-v {
+      width: 0;
+      height: 0;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-top: 110px solid #5C6F60;
+      margin: 0 auto;
+    }
+
+    .heart-seal {
+      width: 38px;
+      height: 38px;
+      background: #EFEAE0;
+      border-radius: 50%;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7A8B7E;
+    }
+
+    .music-spin {
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Vintage Oval Frame */
+    .oval-frame-container {
+      width: 220px;
+      height: 300px;
+      border-radius: 50%;
+      border: 6px double #E7ECE7;
+      padding: 8px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .oval-frame-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body class="bg-[#1A231C] text-sage-900 font-sans flex justify-center min-h-screen">
+
+  <!-- Audio Player Local (GitHub Pages) -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Floating Audio Button (Pojok Kanan Atas Sesuai Gambar) -->
+  <button id="musicToggle" onclick="toggleAudio()" class="fixed top-5 right-5 z-50 w-11 h-11 bg-sage-800 text-white rounded-xl shadow-lg border border-sage-600 flex items-center justify-center transition-transform hover:scale-105 active:scale-95">
+    <i data-lucide="music" class="w-5 h-5"></i>
+  </button>
+
+  <!-- Mobile Frame Application Wrapper (Max 480px) -->
+  <div class="w-full max-w-[460px] bg-cream-100 shadow-2xl relative overflow-x-hidden min-h-screen pb-16">
+
+    <!-- OVERLAY ENVELOPE COVER (Buka Undangan Initial Modal) -->
+    <div id="coverModal" class="fixed inset-0 z-40 bg-cream-100 max-w-[460px] mx-auto flex flex-col items-center justify-center p-6 text-center transition-transform duration-700 ease-in-out">
+      <div class="w-full max-w-[340px] bg-white p-6 rounded-2xl shadow-xl border border-cream-300 relative">
+        <div class="scalloped-inner p-6">
+          <p class="text-xs uppercase tracking-widest text-sage-600 font-semibold mb-2">The Wedding Of</p>
+          <h1 class="font-script text-5xl text-sage-800 mb-2">Zain & Devia</h1>
+          <p class="text-xs text-sage-600 font-serif italic mb-6">Selasa, 12 Januari 2026</p>
+          <button onclick="openInvitation()" class="inline-flex items-center gap-2 bg-sage-800 hover:bg-sage-900 text-white px-7 py-3 rounded-full text-sm font-medium shadow-md transition-all transform hover:-translate-y-0.5">
+            <i data-lucide="mail-open" class="w-4 h-4"></i> Buka Undangan
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- MAIN CONTENT -->
-<main>
-  <!-- HERO SECTION -->
-  <section style="text-align: center; padding-top: 50px;">
-    <p style="letter-spacing: 3px; font-size: 0.75rem; text-transform: uppercase; color: var(--sage-muted);">Walimatul 'Ursy</p>
-    <h2 class="title-script" style="font-size: 3.5rem;">Zain & Devia</h2>
-    <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic;">12 . 01 . 26</p>
-  </section>
+    <!-- HEADER: OPEN ENVELOPE & POLAROID PHOTO (DESAIN GAMBAR 1 SEBELAH KIRI) -->
+    <section class="relative pt-8 pb-4 px-6 flex flex-col items-center">
+      
+      <!-- Top Open Envelope Illustration -->
+      <div class="w-full max-w-[340px] bg-sage-800 rounded-2xl p-4 pt-0 shadow-2xl relative overflow-visible mt-6">
+        <!-- Inside Envelope V-Shape Fold -->
+        <div class="w-0 h-0 border-l-[150px] border-l-transparent border-r-[150px] border-r-transparent border-t-[80px] border-t-sage-700 mx-auto"></div>
 
-  <!-- OUR STORY & COUPLE & EVENTS IN SAGE CONTAINER -->
-  <section class="sage-bg">
-    <div class="oval-frame">
-      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Mempelai">
-    </div>
-    <h2 class="section-title">Our Love Story</h2>
-    <p style="text-align: center; font-size: 0.88rem; line-height: 1.6; font-style: italic; margin-bottom: 30px; opacity: 0.9;">
-      "Tanpa sengaja mencari, takdir mempertemukan langkah kami. Berawal dari percakapan sederhana, tumbuh cerita yang mengubah segalanya secara perlahan."
-    </p>
+        <!-- Heart Seal Badge -->
+        <div class="absolute top-[60px] left-1/2 -translate-x-1/2 z-20">
+          <div class="heart-seal">
+            <i data-lucide="heart" class="w-5 h-5 fill-cream-200 stroke-sage-700"></i>
+          </div>
+        </div>
 
-    <div class="couple-card">
-      <p style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1.5px; opacity: 0.8; margin-bottom: 4px;">Mempelai Pria</p>
-      <div class="couple-name">Zain Zaidan Ahsan</div>
-      <div class="parents">Putra dari Bp. Ahmad Iksanudin & Ibu Kristianah</div>
-    </div>
+        <!-- Polaroid Photo Frame Hanging from Envelope -->
+        <div class="relative -mt-10 bg-white p-3 rounded-[4px] shadow-lg border border-cream-200 transform -rotate-1 hover:rotate-0 transition-transform duration-300 z-10 w-[88%] mx-auto">
+          <div class="aspect-[4/3] overflow-hidden rounded-[2px] bg-slate-200">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Zain & Devia" class="w-full h-full object-cover">
+          </div>
+        </div>
 
-    <div class="couple-card" style="margin-top: 20px;">
-      <p style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1.5px; opacity: 0.8; margin-bottom: 4px;">Mempelai Wanita</p>
-      <div class="couple-name">Devia Maharani Artono</div>
-      <div class="parents">Putri dari Bp. Wartono Suprayitno & Ibu Muslimah</div>
-    </div>
-
-    <!-- RANGKAIAN ACARA (KARTU KREM DI DALAM SAGE BG) -->
-    <div style="margin-top: 45px;">
-      <!-- Akad Nikah Card -->
-      <div class="event-card">
-        <h3 class="event-card-title">Akad Nikah</h3>
-        <p class="event-card-date">Selasa, 12 Januari 2026</p>
-        <p class="event-card-time">Pukul 08.00 - 09.00 WIB</p>
-        <p class="event-card-location">KUA Jebres, Surakarta<br><span style="font-size: 0.78rem; opacity: 0.8;">Jl. Ledoksari No.1, Purwodiningratan, Kec. Jebres</span></p>
-        <a href="https://maps.google.com/?q=KUA+Jebres" target="_blank" class="btn-event-location">PETUNJUK LOKASI</a>
+        <!-- Buket Bunga Anggrek Pink Meluntai (Ornamen SVG Kanan Amplop) -->
+        <div class="absolute -right-5 -bottom-8 z-30 w-28 pointer-events-none">
+          <svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-md">
+            <!-- Stems -->
+            <path d="M20 10C35 40 50 80 40 130" stroke="#4A5D4E" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 30C50 60 70 90 60 135" stroke="#5C6F60" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Orchid Pink Flowers -->
+            <circle cx="25" cy="25" r="14" fill="#E09BB0"/>
+            <circle cx="25" cy="25" r="7" fill="#C5768D"/>
+            <circle cx="50" cy="55" r="16" fill="#E09BB0"/>
+            <circle cx="50" cy="55" r="8" fill="#C5768D"/>
+            <circle cx="65" cy="88" r="13" fill="#E09BB0"/>
+            <circle cx="65" cy="88" r="6" fill="#C5768D"/>
+            <!-- Hanging Vines Green -->
+            <path d="M45 90Q55 110 50 135" stroke="#6B7F6F" stroke-width="2" stroke-dasharray="3 3"/>
+            <path d="M55 95Q65 115 60 138" stroke="#6B7F6F" stroke-width="2" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
       </div>
 
-      <!-- Resepsi Card -->
-      <div class="event-card">
-        <h3 class="event-card-title">Resepsi</h3>
-        <p class="event-card-date">Selasa, 12 Januari 2026</p>
-        <p class="event-card-time">Pukul 09.30 - 11.30 WIB</p>
-        <p class="event-card-location">Wedangan Roso Tresno, Surakarta<br><span style="font-size: 0.78rem; opacity: 0.8;">Jl. Mayor Achmadi No.37, Wirun, Plesungan</span></p>
-        <a href="https://maps.google.com/?q=Wedangan+Roso+Tresno" target="_blank" class="btn-event-location">PETUNJUK LOKASI</a>
+      <!-- KARTU VINTAGE SCALLOPED EDGE (ZAIN & DEVIA 12.01.26) -->
+      <div class="w-full max-w-[340px] scalloped-card rounded-xl p-6 text-center mt-8 relative z-20">
+        <div class="scalloped-inner p-6 flex flex-col items-center">
+          <h2 class="font-script text-5xl text-sage-800 leading-tight">Zain</h2>
+          <span class="font-serif italic text-sage-600 text-lg my-1">and</span>
+          <h2 class="font-script text-5xl text-sage-800 leading-tight">Devia</h2>
+          
+          <div class="w-12 h-[1px] bg-sage-600 my-4"></div>
+          
+          <p class="font-serif text-xl tracking-[0.25em] text-sage-800 font-medium">12 . 01 . 26</p>
+          
+          <p class="font-serif italic text-xs text-sage-600 mt-4 max-w-[220px] leading-relaxed">
+            Dua jiwa, satu takdir. Bergabunglah bersama kami merayakan hari penuh kebahagiaan ini.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: OUR LOVE STORY (SAGE GREEN BG #4A5D4E PASTI PRESISI SAMA SPERTI GAMBAR) -->
+    <section class="bg-sage-800 text-white py-12 px-6 mt-6 rounded-[2rem] mx-3 shadow-xl">
+      
+      <!-- BINGKAI OVAL KLASIK FOTO PASANGAN -->
+      <div class="flex justify-center mb-8">
+        <div class="oval-frame-container bg-sage-800">
+          <div class="oval-frame-inner">
+            <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600" alt="Love Story Zain & Devia" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+
+      <!-- TITLE OUR LOVE STORY -->
+      <div class="text-center mb-8">
+        <h2 class="font-script text-5xl text-cream-100 mb-2">Our Love Story</h2>
+        <div class="w-16 h-[1px] bg-cream-200/40 mx-auto"></div>
+      </div>
+
+      <!-- KISAH PUITIS -->
+      <div class="text-center max-w-[320px] mx-auto font-serif italic text-sm text-cream-100/90 leading-relaxed space-y-4 mb-10">
+        <p>
+          "Tanpa sengaja mencari, takdir mempertemukan langkah kami. Berawal dari percakapan sederhana, tumbuh cerita manis yang mengubah segalanya."
+        </p>
+        <p>
+          "Melalui momen demi momen sederhana, kami belajar untuk saling mengerti, mendukung satu sama lain, dan membangun rasa nyaman yang terasa seperti rumah."
+        </p>
+        <p>
+          "Kini kami melangkah ke jenjang pernikahan ini dengan kepastian cinta dan kebahagiaan sejati."
+        </p>
+      </div>
+
+      <!-- MEMPELAI DETAILS -->
+      <div class="space-y-4 mb-10 max-w-[340px] mx-auto">
+        <div class="bg-white/10 backdrop-blur-sm border border-white/15 p-5 rounded-2xl text-center">
+          <p class="text-[10px] tracking-widest uppercase text-cream-200 opacity-80 mb-1">Mempelai Pria</p>
+          <h3 class="font-serif text-2xl font-bold text-white mb-1">Zain Zaidan Ahsan</h3>
+          <p class="text-xs text-cream-100/80 font-sans">Putra dari Bp. Ahmad Iksanudin & Ibu Kristianah</p>
+        </div>
+
+        <div class="text-center font-script text-3xl text-cream-200">&amp;</div>
+
+        <div class="bg-white/10 backdrop-blur-sm border border-white/15 p-5 rounded-2xl text-center">
+          <p class="text-[10px] tracking-widest uppercase text-cream-200 opacity-80 mb-1">Mempelai Wanita</p>
+          <h3 class="font-serif text-2xl font-bold text-white mb-1">Devia Maharani Artono</h3>
+          <p class="text-xs text-cream-100/80 font-sans">Putri dari Bp. Wartono Suprayitno & Ibu Muslimah</p>
+        </div>
+      </div>
+
+      <!-- KARTU AKAD & RESEPSI (BERLATAR KREM DENGAN TULIP PINK DI KANAN SAMA SPERTI GAMBAR 1) -->
+      <div class="space-y-6 max-w-[340px] mx-auto text-sage-900 relative">
         
-        <!-- Tangkai Bunga Pink Elegan -->
-        <svg class="flower-accent" viewBox="0 0 40 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 65C15 45 25 25 35 10" stroke="#6B7F6F" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="33" cy="12" r="6" fill="#E0A3B5"/>
-          <circle cx="22" cy="28" r="5" fill="#E0A3B5"/>
-        </svg>
+        <!-- CARD CEREMONY / AKAD -->
+        <div class="bg-cream-50 p-6 rounded-2xl shadow-lg border border-cream-200 text-center relative">
+          <h3 class="font-script text-4xl text-sage-800 mb-1">Ceremony</h3>
+          <p class="text-xs font-semibold text-sage-600 mb-1">AKAD NIKAH</p>
+          <p class="text-xs text-sage-700 font-serif italic mb-2">Selasa, 12 Januari 2026</p>
+          <p class="text-xs font-bold text-sage-800">Pukul 08.00 - 09.00 WIB</p>
+          <p class="text-xs text-sage-600 mt-2 mb-4 font-sans leading-tight">
+            <strong>KUA Jebres, Surakarta</strong><br>
+            Jl. Ledoksari No.1, Purwodiningratan, Kec. Jebres, Surakarta
+          </p>
+          <a href="https://maps.google.com/?q=KUA+Jebres" target="_blank" class="inline-block px-5 py-2 border border-sage-700 text-sage-800 rounded-full text-[11px] font-semibold tracking-wider hover:bg-sage-800 hover:text-white transition-colors">
+            VIEW MAP
+          </a>
+        </div>
+
+        <!-- CARD RECEPTION / RESEPSI (DENGAN BUKET BUNGA TULIP PINK DI SUDUT) -->
+        <div class="bg-cream-50 p-6 rounded-2xl shadow-lg border border-cream-200 text-center relative overflow-visible">
+          <h3 class="font-script text-4xl text-sage-800 mb-1">Reception</h3>
+          <p class="text-xs font-semibold text-sage-600 mb-1">RESEPSI PERNIKAHAN</p>
+          <p class="text-xs text-sage-700 font-serif italic mb-2">Selasa, 12 Januari 2026</p>
+          <p class="text-xs font-bold text-sage-800">Pukul 09.30 - 11.30 WIB</p>
+          <p class="text-xs text-sage-600 mt-2 mb-4 font-sans leading-tight">
+            <strong>Wedangan Roso Tresno</strong><br>
+            Jl. Mayor Achmadi No.37, Wirun, Plesungan, Karanganyar
+          </p>
+          <a href="https://maps.google.com/?q=Wedangan+Roso+Tresno" target="_blank" class="inline-block px-5 py-2 border border-sage-700 text-sage-800 rounded-full text-[11px] font-semibold tracking-wider hover:bg-sage-800 hover:text-white transition-colors">
+            VIEW MAP
+          </a>
+
+          <!-- Tulip Pink Flowers SVG Accent (Pojok Kanan Bawah Kartu) -->
+          <div class="absolute -right-3 -bottom-4 w-20 z-20 pointer-events-none">
+            <svg viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 90C30 60 45 40 55 10" stroke="#5C6F60" stroke-width="3" stroke-linecap="round"/>
+              <path d="M35 85C45 65 60 50 70 30" stroke="#4A5D4E" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Tulip Bud 1 -->
+              <path d="M45 15C45 5 65 5 65 15C65 28 45 28 45 15Z" fill="#E09BB0"/>
+              <path d="M50 12C50 5 60 5 60 12C60 22 50 22 50 12Z" fill="#C5768D"/>
+              <!-- Tulip Bud 2 -->
+              <path d="M60 32C60 24 75 24 75 32C75 42 60 42 60 32Z" fill="#E09BB0"/>
+            </svg>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </section>
 
-  <!-- COUNTDOWN -->
-  <section style="text-align: center; padding: 40px 20px;">
-    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; color: var(--sage-dark);">Countdown To Forever</h3>
-    <div class="countdown-grid">
-      <div class="count-box"><div class="count-num" id="days">00</div><div class="count-label">Hari</div></div>
-      <div class="count-box"><div class="count-num" id="hours">00</div><div class="count-label">Jam</div></div>
-      <div class="count-box"><div class="count-num" id="minutes">00</div><div class="count-label">Menit</div></div>
-      <div class="count-box"><div class="count-num" id="seconds">00</div><div class="count-label">Detik</div></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DIGITAL GIFT -->
-  <section>
-    <h2 class="section-title" style="font-style: normal;">Amplop Digital</h2>
-    <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
-      Doa restu Anda merupakan hadiah terindah bagi kami. Namun jika ingin memberikan tanda kasih, dapat melalui rekening berikut:
-    </p>
+    <!-- SECTION 3: DRESS CODE & OUR TIMELINE DALAM AMPLOP (DESAIN GAMBAR KANAN) -->
+    <section class="py-12 px-6 flex flex-col items-center">
+      
+      <!-- DRESS CODE -->
+      <div class="text-center mb-10">
+        <h3 class="font-serif italic text-3xl text-sage-800 mb-1">Dress code</h3>
+        <p class="text-xs font-semibold text-sage-600 tracking-wider mb-2">Classic &amp; Elegant</p>
+        <p class="text-xs text-sage-600 max-w-[240px] mx-auto font-serif mb-4">
+          Kami mengundang Anda untuk mengenakan busana bernuansa warna berikut:
+        </p>
 
-    <div class="bank-card">
-      <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
-      <div style="font-size: 1.2rem; font-weight: 700;" id="reks1">7339557254</div>
-      <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Zain Zaidan Ahsan</div>
-      <button class="btn-copy" onclick="copyText('7339557254')">Salin No. Rekening</button>
-    </div>
-
-    <div class="bank-card">
-      <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
-      <div style="font-size: 1.2rem; font-weight: 700;" id="reks2">7200217432</div>
-      <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Devia Maharani Artono</div>
-      <button class="btn-copy" onclick="copyText('7200217432')">Salin No. Rekening</button>
-    </div>
-  </section>
-
-  <!-- RSVP -->
-  <section>
-    <h2 class="section-title" style="font-style: normal;">Konfirmasi Kehadiran</h2>
-    <form class="rsvp-form" onsubmit="submitRSVP(event)">
-      <div class="form-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="rsvpName" required placeholder="Masukkan nama Anda">
+        <!-- Color Palette Circles -->
+        <div class="flex justify-center gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#5C6F60] shadow-sm"></span>
+          <span class="w-5 h-5 rounded-full bg-[#8A9A8B] shadow-sm"></span>
+          <span class="w-5 h-5 rounded-full bg-[#B5C2B6] shadow-sm"></span>
+          <span class="w-5 h-5 rounded-full bg-[#D8D2C3] shadow-sm"></span>
+          <span class="w-5 h-5 rounded-full bg-[#EFEAE0] shadow-sm"></span>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Konfirmasi Kehadiran</label>
-        <select id="rsvpStatus">
-          <option value="Hadir">Ya, Saya Akan Hadir</option>
-          <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
-        </select>
+
+      <!-- OUR TIMELINE ENVELOPE (AMPLOP DENGAN KARTU TIMELINE) -->
+      <div class="w-full max-w-[340px] bg-sage-800 rounded-xl p-4 pt-0 shadow-xl relative mt-4">
+        <!-- Flap Envelope V -->
+        <div class="w-0 h-0 border-l-[140px] border-l-transparent border-r-[140px] border-r-transparent border-t-[70px] border-t-sage-700 mx-auto"></div>
+
+        <!-- Stempel Hati Krem -->
+        <div class="absolute top-[50px] left-1/2 -translate-x-1/2 z-20">
+          <div class="heart-seal">
+            <i data-lucide="heart" class="w-4 h-4 fill-cream-200 stroke-sage-700"></i>
+          </div>
+        </div>
+
+        <!-- Kartu Timeline Bergerigi (Keluar dari Amplop) -->
+        <div class="bg-cream-50 p-6 rounded-lg shadow-md border border-cream-200 text-center -mt-6 relative z-10">
+          <h3 class="font-script text-4xl text-sage-800 mb-6">Our Timeline</h3>
+
+          <div class="space-y-5 text-left max-w-[240px] mx-auto font-serif">
+            
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-sage-100 flex items-center justify-center text-sage-800 flex-shrink-0 mt-0.5">
+                <i data-lucide="church" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-sage-800">08.00 WIB</p>
+                <p class="text-xs text-sage-600">Akad Nikah / Wedding Ceremony</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-sage-100 flex items-center justify-center text-sage-800 flex-shrink-0 mt-0.5">
+                <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-sage-800">09.30 WIB</p>
+                <p class="text-xs text-sage-600">Pembukaan Resepsi &amp; Ramah Tamah</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-sage-100 flex items-center justify-center text-sage-800 flex-shrink-0 mt-0.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-sage-800">10.30 WIB</p>
+                <p class="text-xs text-sage-600">Foto Bersama &amp; Sesi Ucapan Selamat</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-sage-100 flex items-center justify-center text-sage-800 flex-shrink-0 mt-0.5">
+                <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-sage-800">11.30 WIB</p>
+                <p class="text-xs text-sage-600">Penutupan Acara Resepsi</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Ucapan & Doa</label>
-        <textarea id="rsvpMessage" rows="3" placeholder="Tuliskan ucapan dan doa restu..."></textarea>
+
+    </section>
+
+    <!-- SECTION 4: COUNTDOWN & DIGITAL GIFT REGISTRY -->
+    <section class="py-10 px-6 text-center">
+      
+      <!-- COUNTDOWN TO FOREVER -->
+      <h3 class="font-serif italic text-3xl text-sage-800 mb-4">Countdown To Forever</h3>
+      
+      <div class="flex justify-center gap-3 mb-12">
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-cream-200 min-w-[65px]">
+          <span id="days" class="block font-serif text-2xl font-bold text-sage-800">00</span>
+          <span class="text-[9px] uppercase tracking-wider text-sage-600">Hari</span>
+        </div>
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-cream-200 min-w-[65px]">
+          <span id="hours" class="block font-serif text-2xl font-bold text-sage-800">00</span>
+          <span class="text-[9px] uppercase tracking-wider text-sage-600">Jam</span>
+        </div>
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-cream-200 min-w-[65px]">
+          <span id="minutes" class="block font-serif text-2xl font-bold text-sage-800">00</span>
+          <span class="text-[9px] uppercase tracking-wider text-sage-600">Menit</span>
+        </div>
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-cream-200 min-w-[65px]">
+          <span id="seconds" class="block font-serif text-2xl font-bold text-sage-800">00</span>
+          <span class="text-[9px] uppercase tracking-wider text-sage-600">Detik</span>
+        </div>
       </div>
-      <button type="submit" class="btn-open" style="width: 100%; justify-content: center; border-radius: 8px;">Kirim Ucapan</button>
-    </form>
-  </section>
-</main>
+
+      <!-- GIFT REGISTRY / REKENING DIGITAL -->
+      <h3 class="font-serif italic text-3xl text-sage-800 mb-2">Gift Registry</h3>
+      <p class="text-xs text-sage-600 max-w-[280px] mx-auto font-serif mb-6 leading-relaxed">
+        Doa restu Anda merupakan karunia terindah bagi kami. Namun jika ingin memberikan tanda kasih, dapat mengirimkan melalui rekening berikut:
+      </p>
+
+      <div class="space-y-4 max-w-[340px] mx-auto text-left">
+        <!-- Rekening BSI Zain -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-cream-200 flex flex-col gap-1">
+          <span class="text-[10px] font-bold tracking-wider uppercase text-sage-600">Bank Syariah Indonesia (BSI)</span>
+          <span class="font-mono text-lg font-bold text-sage-900 tracking-wider">7339557254</span>
+          <span class="text-xs text-sage-700">a.n Zain Zaidan Ahsan</span>
+          <button onclick="copyText('7339557254')" class="mt-2 text-xs bg-sage-800 text-white px-3 py-1.5 rounded-md font-medium self-start hover:bg-sage-900 transition-colors">
+            Salin No. Rekening
+          </button>
+        </div>
+
+        <!-- Rekening BSI Devia -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-cream-200 flex flex-col gap-1">
+          <span class="text-[10px] font-bold tracking-wider uppercase text-sage-600">Bank Syariah Indonesia (BSI)</span>
+          <span class="font-mono text-lg font-bold text-sage-900 tracking-wider">7200217432</span>
+          <span class="text-xs text-sage-700">a.n Devia Maharani Artono</span>
+          <button onclick="copyText('7200217432')" class="mt-2 text-xs bg-sage-800 text-white px-3 py-1.5 rounded-md font-medium self-start hover:bg-sage-900 transition-colors">
+            Salin No. Rekening
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 5: CONFIRM ATTENDANCE (RSVP ENVELOPE DESAIN GAMBAR SISI KANAN BAWAH) -->
+    <section class="py-10 px-6 flex flex-col items-center">
+      
+      <!-- Envelope RSVP Body -->
+      <div class="w-full max-w-[340px] bg-sage-800 rounded-2xl p-4 pt-0 shadow-2xl relative overflow-visible">
+        
+        <!-- Inside Envelope V Fold -->
+        <div class="w-0 h-0 border-l-[140px] border-l-transparent border-r-[140px] border-r-transparent border-t-[70px] border-t-sage-700 mx-auto"></div>
+
+        <!-- Buket Bunga Anggrek Pink Meluntai (Kanan RSVP Amplop) -->
+        <div class="absolute -right-5 -bottom-6 z-30 w-28 pointer-events-none">
+          <svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-md">
+            <path d="M20 10C35 40 50 80 40 130" stroke="#4A5D4E" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 30C50 60 70 90 60 135" stroke="#5C6F60" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="25" cy="25" r="14" fill="#E09BB0"/>
+            <circle cx="25" cy="25" r="7" fill="#C5768D"/>
+            <circle cx="50" cy="55" r="16" fill="#E09BB0"/>
+            <circle cx="50" cy="55" r="8" fill="#C5768D"/>
+          </svg>
+        </div>
+
+        <!-- RSVP Confirmation Card -->
+        <div class="bg-cream-50 p-6 rounded-xl shadow-lg border border-cream-200 text-center -mt-8 relative z-10">
+          <h3 class="font-serif italic tracking-wider text-xl text-sage-800 mb-4">CONFIRM ATTENDANCE</h3>
+
+          <form onsubmit="submitRSVP(event)" class="space-y-4 text-left font-sans">
+            <div>
+              <label class="block text-[11px] font-semibold text-sage-700 uppercase mb-1">Nama Lengkap</label>
+              <input type="text" id="rsvpName" required placeholder="Nama Anda" class="w-full px-3 py-2 bg-white border border-cream-300 rounded-lg text-xs text-sage-900 focus:outline-none focus:border-sage-700">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-semibold text-sage-700 uppercase mb-1">Konfirmasi Kehadiran</label>
+              <select id="rsvpStatus" class="w-full px-3 py-2 bg-white border border-cream-300 rounded-lg text-xs text-sage-900 focus:outline-none focus:border-sage-700">
+                <option value="Hadir">Ya, Saya Berkenan Hadir</option>
+                <option value="Tidak Hadir">Maaf, Belum Bisa Hadir</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-semibold text-sage-700 uppercase mb-1">Ucapan &amp; Doa Restu</label>
+              <textarea id="rsvpMessage" rows="3" placeholder="Tulis ucapan selamat..." class="w-full px-3 py-2 bg-white border border-cream-300 rounded-lg text-xs text-sage-900 focus:outline-none focus:border-sage-700"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-sage-800 text-white rounded-lg text-xs font-semibold uppercase tracking-wider hover:bg-sage-900 transition-colors shadow-sm">
+              Kirim Konfirmasi
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FOOTER WITH NAMES -->
+    <footer class="text-center pt-8 pb-12 bg-sage-800 text-cream-100 mt-6 rounded-t-3xl">
+      <p class="text-xs uppercase tracking-widest text-cream-200/80 mb-2">With Love</p>
+      <h2 class="font-script text-4xl text-cream-100">Zain &amp; Devia</h2>
+      <p class="text-[10px] text-cream-200/60 mt-4">© 2026 Zain &amp; Devia. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Audio Controller
+    const audio = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
+
+    function openInvitation() {
+      document.getElementById('coverModal').classList.add('-translate-y-full');
+      audio.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('music-spin');
+      }).catch(err => console.log('Autoplay audio blocked:', err));
+    }
+
+    function toggleAudio() {
+      if (isPlaying) {
+        audio.pause();
+        musicBtn.classList.remove('music-spin');
+      } else {
+        audio.play();
+        musicBtn.classList.add('music-spin');
+      }
+      isPlaying = !isPlaying;
+    }
+
+    // Live Countdown Timer to 12 Jan 2026 (08:00 WIB)
+    const targetDate = new Date('January 12, 2026 08:00:00').getTime();
+    setInterval(() => {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff > 0) {
+        document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+      }
+    }, 1000);
+
+    // Copy to Clipboard Function
+    function copyText(text) {
+      navigator.clipboard.writeText(text);
+      alert('Nomor rekening berhasil disalin: ' + text);
+    }
+
+    // RSVP Submit Form Function
+    function submitRSVP(e) {
+      e.preventDefault();
+      const name = document.getElementById('rsvpName').value;
+      alert(`Terima kasih ${name}, konfirmasi dan doa Anda telah tersimpan!`);
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
