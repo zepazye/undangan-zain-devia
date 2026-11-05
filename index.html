@@ -1,552 +1,130 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undangan Pernikahan - Zain & Devia</title>
+<!-- COVER MODAL -->
+<div class="cover-modal" id="coverModal">
+  <div class="cover-card">
+    <div class="scallop-border">
+      <p style="letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">The Wedding Of</p>
+      <h1 class="title-script" style="margin: 15px 0;">Zain & Devia</h1>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Selasa, 12 Januari 2026</p>
+      <button class="btn-open" onclick="openInvitation()">
+        <i data-lucide="mail-open"></i> Buka Undangan
+      </button>
+    </div>
+  </div>
+</div>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- MAIN CONTENT -->
+<main>
+  <!-- HERO SECTION -->
+  <section style="text-align: center; padding-top: 50px;">
+    <p style="letter-spacing: 3px; font-size: 0.75rem; text-transform: uppercase; color: var(--sage-muted);">Walimatul 'Ursy</p>
+    <h2 class="title-script" style="font-size: 3.5rem;">Zain & Devia</h2>
+    <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic;">12 . 01 . 26</p>
+  </section>
 
-  <!-- Font Awesome Icons (Ring & Glasses) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- OUR STORY & COUPLE & EVENTS IN SAGE CONTAINER -->
+  <section class="sage-bg">
+    <div class="oval-frame">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Mempelai">
+    </div>
+    <h2 class="section-title">Our Love Story</h2>
+    <p style="text-align: center; font-size: 0.88rem; line-height: 1.6; font-style: italic; margin-bottom: 30px; opacity: 0.9;">
+      "Tanpa sengaja mencari, takdir mempertemukan langkah kami. Berawal dari percakapan sederhana, tumbuh cerita yang mengubah segalanya secara perlahan."
+    </p>
 
-  <style>
-    :root {
-      --bg-cream: #F8F5EE;
-      --bg-card: #FFFFFF;
-      --sage-dark: #4A5D4E;
-      --sage-muted: #6B7F6F;
-      --sage-light: #E7ECE7;
-      --text-dark: #2C352E;
-      --text-muted: #5C695E;
-      --pink-accent: #D8829D;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #1A231C;
-      color: var(--text-dark);
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 480px;
-      background-color: var(--bg-cream);
-      position: relative;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-      overflow-x: hidden;
-      padding-bottom: 60px;
-    }
-
-    /* Floating Music Control */
-    .music-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 99;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: var(--sage-dark);
-      color: white;
-      border: 2px solid white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .music-btn.playing {
-      animation: spin 6s linear infinite;
-    }
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Cover Envelope Modal */
-    .cover-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background-color: var(--bg-cream);
-      max-width: 480px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-      transition: transform 0.8s ease-in-out;
-    }
-    .cover-modal.hide {
-      transform: translateY(-100%);
-    }
-
-    .cover-card {
-      background: white;
-      padding: 30px 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(0,0,0,0.05);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      width: 100%;
-      max-width: 360px;
-    }
-
-    .scallop-border {
-      border: 2px dashed var(--sage-muted);
-      padding: 20px 15px;
-      border-radius: 12px;
-    }
-
-    .title-script {
-      font-family: 'Alex Brush', cursive;
-      color: var(--sage-dark);
-      font-size: 3rem;
-      line-height: 1.2;
-    }
-
-    .btn-open {
-      margin-top: 25px;
-      background: var(--sage-dark);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 30px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(74, 93, 78, 0.3);
-    }
-
-    section {
-      padding: 40px 24px;
-      position: relative;
-    }
-
-    .section-subtitle {
-      letter-spacing: 3px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      color: var(--sage-muted);
-      text-align: center;
-    }
-
-    .section-title {
-      font-family: 'Alex Brush', cursive;
-      font-size: 3rem;
-      color: var(--sage-dark);
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    /* Sage BG Section */
-    .sage-bg {
-      background-color: var(--sage-dark);
-      color: white;
-      border-radius: 24px;
-      margin: 20px 16px;
-      padding: 40px 20px;
-    }
-    .sage-bg .section-title {
-      color: white;
-    }
-
-    .oval-frame {
-      width: 180px;
-      height: 240px;
-      border-radius: 50%;
-      border: 4px solid var(--bg-cream);
-      margin: 0 auto 24px;
-      overflow: hidden;
-      background: #ccc;
-    }
-    .oval-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .couple-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-    .couple-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .parents {
-      font-size: 0.85rem;
-      opacity: 0.9;
-    }
-
-    /* Event Cards (Cream Background Style) */
-    .event-card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-      border: 1px solid rgba(0,0,0,0.03);
-      text-align: center;
-      position: relative;
-    }
-
-    .icon-circle {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background-color: var(--sage-dark);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 1.2rem;
-    }
-
-    .event-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      color: var(--sage-dark);
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .event-time {
-      display: inline-block;
-      background: var(--sage-light);
-      color: var(--sage-dark);
-      padding: 4px 14px;
-      border-radius: 15px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin: 6px 0 12px;
-    }
-
-    .event-address {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      max-width: 320px;
-      margin: 0 auto;
-    }
-
-    .btn-pill-map {
-      display: inline-block;
-      width: 100%;
-      background: var(--sage-dark);
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 25px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(74, 93, 78, 0.2);
-    }
-
-    /* Countdown */
-    .countdown-grid {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .count-box {
-      background: white;
-      padding: 12px;
-      border-radius: 12px;
-      min-width: 65px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    }
-    .count-num {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--sage-dark);
-    }
-    .count-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    /* Form RSVP */
-    .rsvp-form {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-    .form-group {
-      margin-bottom: 16px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-    }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #DDD;
-      border-radius: 8px;
-      font-family: inherit;
-    }
-
-    /* Digital Gift Card */
-    .bank-card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-      border: 1px solid var(--sage-light);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .btn-copy {
-      background: var(--sage-dark);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      align-self: flex-start;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Audio Player Local (GitHub Pages) -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Floating Music Toggle -->
-  <button class="music-btn" id="musicToggle" onclick="toggleAudio()">
-    <i data-lucide="music"></i>
-  </button>
-
-  <div class="app-container">
-
-    <!-- COVER MODAL -->
-    <div class="cover-modal" id="coverModal">
-      <div class="cover-card">
-        <div class="scallop-border">
-          <p style="letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">The Wedding Of</p>
-          <h1 class="title-script" style="margin: 15px 0;">Zain & Devia</h1>
-          <p style="font-size: 0.9rem; color: var(--text-muted);">Selasa, 12 Januari 2026</p>
-          <button class="btn-open" onclick="openInvitation()">
-            <i data-lucide="mail-open"></i> Buka Undangan
-          </button>
-        </div>
-      </div>
+    <div class="couple-card">
+      <p style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1.5px; opacity: 0.8; margin-bottom: 4px;">Mempelai Pria</p>
+      <div class="couple-name">Zain Zaidan Ahsan</div>
+      <div class="parents">Putra dari Bp. Ahmad Iksanudin & Ibu Kristianah</div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <main>
-      <!-- HERO SECTION -->
-      <section style="text-align: center; padding-top: 50px;">
-        <p style="letter-spacing: 3px; font-size: 0.75rem; text-transform: uppercase; color: var(--sage-muted);">Walimatul 'Ursy</p>
-        <h2 class="title-script" style="font-size: 3.5rem;">Zain & Devia</h2>
-        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic;">12 . 01 . 26</p>
-      </section>
+    <div class="couple-card" style="margin-top: 20px;">
+      <p style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1.5px; opacity: 0.8; margin-bottom: 4px;">Mempelai Wanita</p>
+      <div class="couple-name">Devia Maharani Artono</div>
+      <div class="parents">Putri dari Bp. Wartono Suprayitno & Ibu Muslimah</div>
+    </div>
 
-      <!-- OUR STORY & COUPLE SECTION -->
-      <section class="sage-bg">
-        <div class="oval-frame">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Mempelai">
-        </div>
-        <h2 class="section-title" style="color: white; font-size: 3rem;">Our Love Story</h2>
-        <p style="text-align: center; font-size: 0.9rem; line-height: 1.6; font-style: italic; margin-bottom: 30px; opacity: 0.9;">
-          "Tanpa sengaja mencari, takdir mempertemukan langkah kami. Berawal dari percakapan sederhana, tumbuh cerita yang mengubah segalanya secara perlahan."
-        </p>
+    <!-- RANGKAIAN ACARA (KARTU KREM DI DALAM SAGE BG) -->
+    <div style="margin-top: 45px;">
+      <!-- Akad Nikah Card -->
+      <div class="event-card">
+        <h3 class="event-card-title">Akad Nikah</h3>
+        <p class="event-card-date">Selasa, 12 Januari 2026</p>
+        <p class="event-card-time">Pukul 08.00 - 09.00 WIB</p>
+        <p class="event-card-location">KUA Jebres, Surakarta<br><span style="font-size: 0.78rem; opacity: 0.8;">Jl. Ledoksari No.1, Purwodiningratan, Kec. Jebres</span></p>
+        <a href="https://maps.google.com/?q=KUA+Jebres" target="_blank" class="btn-event-location">PETUNJUK LOKASI</a>
+      </div>
 
-        <div class="couple-card">
-          <div class="couple-name">Zain Zaidan Ahsan</div>
-          <div class="parents">Putra dari Bp. Ahmad Iksanudin & Ibu Kristianah</div>
-        </div>
-
-        <div style="text-align: center; font-family: 'Alex Brush', cursive; font-size: 2.5rem; margin: 10px 0;">&</div>
-
-        <div class="couple-card">
-          <div class="couple-name">Devia Maharani Artono</div>
-          <div class="parents">Putri dari Bp. Wartono Suprayitno & Ibu Muslimah</div>
-        </div>
-      </section>
-
-      <!-- WAKTU & TEMPAT (RANGKAIAN ACARA) -->
-      <section>
-        <p class="section-subtitle">WAKTU & TEMPAT</p>
-        <h2 class="section-title">Rangkaian Acara</h2>
+      <!-- Resepsi Card -->
+      <div class="event-card">
+        <h3 class="event-card-title">Resepsi</h3>
+        <p class="event-card-date">Selasa, 12 Januari 2026</p>
+        <p class="event-card-time">Pukul 09.30 - 11.30 WIB</p>
+        <p class="event-card-location">Wedangan Roso Tresno, Surakarta<br><span style="font-size: 0.78rem; opacity: 0.8;">Jl. Mayor Achmadi No.37, Wirun, Plesungan</span></p>
+        <a href="https://maps.google.com/?q=Wedangan+Roso+Tresno" target="_blank" class="btn-event-location">PETUNJUK LOKASI</a>
         
-        <!-- Akad Nikah Card -->
-        <div class="event-card">
-          <div class="icon-circle">
-            <i class="fa-solid fa-ring"></i>
-          </div>
-          <div class="event-title">Akad Nikah</div>
-          <p style="font-size: 0.95rem; font-weight: 500; color: var(--text-dark);">Selasa, 12 Januari 2026</p>
-          <div class="event-time"><i class="fa-regular fa-clock" style="margin-right: 4px;"></i> Pukul 08.00 - 09.00 WIB</div>
-          <p style="font-weight: 600; color: var(--sage-dark); margin-top: 6px;">KUA Jebres, Surakarta</p>
-          <p class="event-address">Jl. Ledoksari No.1, Purwodiningratan, Kec. Jebres, Kota Surakarta, Jawa Tengah 57128</p>
-        </div>
+        <!-- Tangkai Bunga Pink Elegan -->
+        <svg class="flower-accent" viewBox="0 0 40 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 65C15 45 25 25 35 10" stroke="#6B7F6F" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="33" cy="12" r="6" fill="#E0A3B5"/>
+          <circle cx="22" cy="28" r="5" fill="#E0A3B5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
 
-        <!-- Resepsi Card -->
-        <div class="event-card">
-          <div class="icon-circle">
-            <i class="fa-solid fa-glass-cheers"></i>
-          </div>
-          <div class="event-title">Resepsi</div>
-          <p style="font-size: 0.95rem; font-weight: 500; color: var(--text-dark);">Selasa, 12 Januari 2026</p>
-          <div class="event-time"><i class="fa-regular fa-clock" style="margin-right: 4px;"></i> Pukul 09.30 - 11.30 WIB</div>
-          <p style="font-weight: 600; color: var(--sage-dark); margin-top: 6px;">Wedangan Roso Tresno, Surakarta</p>
-          <p class="event-address">Jl. Mayor Achmadi No.37, Wirun, Plesungan, Kec. Gondangrejo, Kab. Karanganyar, Jawa Tengah 57181</p>
-        </div>
+  <!-- COUNTDOWN -->
+  <section style="text-align: center; padding: 40px 20px;">
+    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; color: var(--sage-dark);">Countdown To Forever</h3>
+    <div class="countdown-grid">
+      <div class="count-box"><div class="count-num" id="days">00</div><div class="count-label">Hari</div></div>
+      <div class="count-box"><div class="count-num" id="hours">00</div><div class="count-label">Jam</div></div>
+      <div class="count-box"><div class="count-num" id="minutes">00</div><div class="count-label">Menit</div></div>
+      <div class="count-box"><div class="count-num" id="seconds">00</div><div class="count-label">Detik</div></div>
+    </div>
+  </section>
 
-        <!-- Single Map Button -->
-        <a href="https://maps.google.com/?q=Wedangan+Roso+Tresno" target="_blank" class="btn-pill-map" style="text-align: center;">
-          <i class="fa-solid fa-location-dot" style="margin-right: 6px;"></i> Petunjuk Lokasi Google Maps
-        </a>
-      </section>
+  <!-- DIGITAL GIFT -->
+  <section>
+    <h2 class="section-title" style="font-style: normal;">Amplop Digital</h2>
+    <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+      Doa restu Anda merupakan hadiah terindah bagi kami. Namun jika ingin memberikan tanda kasih, dapat melalui rekening berikut:
+    </p>
 
-      <!-- COUNTDOWN -->
-      <section style="text-align: center; background: #F0F4F0; border-radius: 20px; margin: 0 16px; padding: 30px 20px;">
-        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--sage-dark);">Countdown To Forever</h3>
-        <div class="countdown-grid">
-          <div class="count-box"><div class="count-num" id="days">00</div><div class="count-label">Hari</div></div>
-          <div class="count-box"><div class="count-num" id="hours">00</div><div class="count-label">Jam</div></div>
-          <div class="count-box"><div class="count-num" id="minutes">00</div><div class="count-label">Menit</div></div>
-          <div class="count-box"><div class="count-num" id="seconds">00</div><div class="count-label">Detik</div></div>
-        </div>
-      </section>
+    <div class="bank-card">
+      <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
+      <div style="font-size: 1.2rem; font-weight: 700;" id="reks1">7339557254</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Zain Zaidan Ahsan</div>
+      <button class="btn-copy" onclick="copyText('7339557254')">Salin No. Rekening</button>
+    </div>
 
-      <!-- DIGITAL GIFT -->
-      <section>
-        <h2 class="section-title">Amplop Digital</h2>
-        <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
-          Doa restu Anda merupakan hadiah terindah bagi kami. Namun jika ingin memberikan tanda kasih, dapat melalui rekening berikut:
-        </p>
+    <div class="bank-card">
+      <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
+      <div style="font-size: 1.2rem; font-weight: 700;" id="reks2">7200217432</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Devia Maharani Artono</div>
+      <button class="btn-copy" onclick="copyText('7200217432')">Salin No. Rekening</button>
+    </div>
+  </section>
 
-        <div class="bank-card">
-          <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
-          <div style="font-size: 1.2rem; font-weight: 700;" id="reks1">7339557254</div>
-          <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Zain Zaidan Ahsan</div>
-          <button class="btn-copy" onclick="copyText('7339557254')">Salin No. Rekening</button>
-        </div>
-
-        <div class="bank-card">
-          <div style="font-weight: bold; color: var(--sage-dark);">Bank Syariah Indonesia (BSI)</div>
-          <div style="font-size: 1.2rem; font-weight: 700;" id="reks2">7200217432</div>
-          <div style="font-size: 0.85rem; color: var(--text-muted);">a.n Devia Maharani Artono</div>
-          <button class="btn-copy" onclick="copyText('7200217432')">Salin No. Rekening</button>
-        </div>
-      </section>
-
-      <!-- RSVP -->
-      <section>
-        <h2 class="section-title">Konfirmasi Kehadiran</h2>
-        <form class="rsvp-form" onsubmit="submitRSVP(event)">
-          <div class="form-group">
-            <label>Nama Lengkap</label>
-            <input type="text" id="rsvpName" required placeholder="Masukkan nama Anda">
-          </div>
-          <div class="form-group">
-            <label>Konfirmasi Kehadiran</label>
-            <select id="rsvpStatus">
-              <option value="Hadir">Ya, Saya Akan Hadir</option>
-              <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Ucapan & Doa</label>
-            <textarea id="rsvpMessage" rows="3" placeholder="Tuliskan ucapan dan doa restu..."></textarea>
-          </div>
-          <button type="submit" class="btn-open" style="width: 100%; justify-content: center; border-radius: 8px;">Kirim Ucapan</button>
-        </form>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    lucide.createIcons();
-
-    const audio = document.getElementById('bg-music');
-    const musicBtn = document.getElementById('musicToggle');
-    let isPlaying = false;
-
-    function openInvitation() {
-      document.getElementById('coverModal').classList.add('hide');
-      audio.play().then(() => {
-        isPlaying = true;
-        musicBtn.classList.add('playing');
-      }).catch(err => console.log('Audio autoplay blocked'));
-    }
-
-    function toggleAudio() {
-      if (isPlaying) {
-        audio.pause();
-        musicBtn.classList.remove('playing');
-      } else {
-        audio.play();
-        musicBtn.classList.add('playing');
-      }
-      isPlaying = !isPlaying;
-    }
-
-    // Countdown Timer ke 12 Januari 2026 (08:00 WIB)
-    const targetDate = new Date('January 12, 2026 08:00:00').getTime();
-    setInterval(() => {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      if (diff > 0) {
-        document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        document.getElementById('minutes').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-        document.getElementById('seconds').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-      }
-    }, 1000);
-
-    function copyText(text) {
-      navigator.clipboard.writeText(text);
-      alert('Nomor rekening berhasil disalin: ' + text);
-    }
-
-    function submitRSVP(e) {
-      e.preventDefault();
-      alert('Terima kasih atas konfirmasi dan ucapan Anda!');
-      e.target.reset();
-    }
-  </script>
-</body>
-</html>
+  <!-- RSVP -->
+  <section>
+    <h2 class="section-title" style="font-style: normal;">Konfirmasi Kehadiran</h2>
+    <form class="rsvp-form" onsubmit="submitRSVP(event)">
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <input type="text" id="rsvpName" required placeholder="Masukkan nama Anda">
+      </div>
+      <div class="form-group">
+        <label>Konfirmasi Kehadiran</label>
+        <select id="rsvpStatus">
+          <option value="Hadir">Ya, Saya Akan Hadir</option>
+          <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ucapan & Doa</label>
+        <textarea id="rsvpMessage" rows="3" placeholder="Tuliskan ucapan dan doa restu..."></textarea>
+      </div>
+      <button type="submit" class="btn-open" style="width: 100%; justify-content: center; border-radius: 8px;">Kirim Ucapan</button>
+    </form>
+  </section>
+</main>
