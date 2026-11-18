@@ -6,7 +6,7 @@
 <title>Undangan Pernikahan Zain & Devia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Pacifico&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--olive:#5d6b3b;--olive-d:#4a5730;--paper:#fdfcf8;--stone:#d3d1cb;--ink:#2a2a25;
 --serif:'Cormorant Garamond',Georgia,serif;--script:'Pinyon Script',cursive;--sans:'Montserrat',Arial,sans-serif;
@@ -85,13 +85,60 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
 .acc{margin:.6rem 0;padding-bottom:.6rem;border-bottom:1px dashed #0003}.acc:last-of-type{border:0}
 .num{font-family:var(--sans);font-size:1rem;letter-spacing:.1em}
 .copied{font-family:var(--sans);font-size:.6rem;min-height:1em;color:var(--olive)}
-.rv{opacity:0;translate:0 50px;scale:.94;transition:opacity .9s ease,translate .9s cubic-bezier(.2,.7,.2,1),scale .9s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;translate:0 0;scale:1;transition-delay:var(--d,0s)}
-.rv.l{translate:-50px 0}.rv.r{translate:50px 0}.rv.l.in,.rv.r.in{translate:0 0}
-.torn>.rv,.green>.rv{translate:0 24px;scale:1}.torn>.rv.in,.green>.rv.in{translate:0 0}
-.leaf{animation:sway 5s ease-in-out infinite alternate}
-@keyframes sway{from{rotate:-4deg}to{rotate:5deg}}
-@media (prefers-reduced-motion:reduce){.rv,.rv.l,.rv.r{opacity:1;translate:none;scale:1;transition:none}.leaf{animation:none}#cover{transition:none}html{scroll-behavior:auto}}
+
+/* ===== PLAYFUL ===== */
+:root{--pop:#ff7a59;--sun:#ffd23f;--pink:#ffb3c7;--mint:#cfe8b8;--cream:#fff6dc;--serif:'Fredoka',system-ui,sans-serif;--script:'Pacifico',cursive}
+body{font-size:1rem;background:#3f4d25}
+.strip{background:var(--cream) radial-gradient(#e8d9a4 1.5px,transparent 1.6px) 0 0/18px 18px}
+.it{font-style:normal}
+.wrap{filter:none}
+.torn{clip-path:none;background:#fff;border:2.5px solid var(--ink);border-radius:24px;box-shadow:6px 6px 0 var(--ink);transition:translate .25s,box-shadow .25s}
+main>section:nth-of-type(3) .torn{background:#ffe3ea}
+main>section:nth-of-type(4) .torn{background:#fff0b8}
+main>section:nth-of-type(8) .torn{background:var(--mint)}
+.green{border:2.5px solid var(--ink);border-radius:24px;box-shadow:6px 6px 0 var(--ink);background:var(--pop);color:#fff}
+.tilt1{transform:rotate(-2.2deg)}.tilt2{transform:rotate(2deg)}
+h2{font-weight:600;letter-spacing:.04em}
+.script{line-height:1.25}
+.names .script{font-size:clamp(1.35rem,6.4vw,1.75rem);color:var(--pop);text-shadow:2px 2px 0 var(--ink)}
+.names .amp{font-size:2rem;color:var(--ink)}
+.btn{border:2.5px solid var(--ink);background:var(--sun);color:var(--ink);border-radius:999px;padding:.5rem 1.2rem;font-weight:600;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.btn:hover,.btn:focus-visible{background:var(--pop);color:#fff;border-color:var(--ink);transform:translate(-2px,-2px) rotate(-2deg);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.seal{animation:pulse 1.6s ease-in-out infinite}
+.seal.s{animation:none}
+@keyframes pulse{50%{transform:scale(1.12) rotate(-6deg)}}
+.arch{background:var(--sun);border-color:var(--ink)}
+.envbody{background-color:var(--pop)}.envarch .back{background:var(--pop)}
+#cover,#cover .strip{background-color:var(--cream)}
+.player{color:var(--ink)}.player .play{background:var(--pop);border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.bar{height:6px;border-radius:9px;background:#0002}.bar::before{height:6px;border-radius:9px;background:var(--pop)}
+.cal .on::before{background:var(--pop);border:2px solid var(--ink);animation:wob 2s ease-in-out infinite}
+@keyframes wob{50%{rotate:12deg;scale:1.12}}
+.dl b{font-weight:600;color:var(--pop);text-shadow:2px 2px 0 var(--ink)}
+.dl span{font-weight:600}
+.tl p::before{background:var(--sun);border:2px solid var(--ink);width:12px;height:12px;left:-1.62rem;top:.35rem}
+.tl::before{background:var(--ink)}
+.count{gap:.35rem;align-items:center;font-size:1.9rem}
+.count div{background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:.5rem .2rem .3rem;min-width:3.5rem;font-weight:600}
+.count div:nth-child(1){background:var(--pink)}.count div:nth-child(3){background:var(--sun)}.count div:nth-child(5){background:var(--mint)}.count div:nth-child(7){background:#fff}
+.tag{background:var(--sun);color:var(--ink);border:2px solid var(--ink);font-weight:600;rotate:12deg;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{translate:0 -6px;rotate:4deg}}
+.leaf{display:none}
+.tape{position:relative;z-index:3;width:112%;margin:.6rem 0 .6rem -6%;rotate:-3deg;background:var(--sun);border-block:2.5px solid var(--ink);overflow:hidden;white-space:nowrap;font:600 .8rem var(--sans);letter-spacing:.12em;padding:.45rem 0}
+.tape.b{rotate:2.5deg;background:var(--pink)}
+.tape span{display:inline-block;animation:mq 14s linear infinite}
+.tape.b span{animation-direction:reverse}
+@keyframes mq{to{transform:translateX(-50%)}}
+.stk{position:absolute;width:38px;height:38px;pointer-events:none;z-index:4;animation:fl 4s ease-in-out infinite alternate}
+@keyframes fl{from{translate:0 -8px;rotate:-14deg}to{translate:0 10px;rotate:14deg}}
+.pc{position:fixed;width:9px;height:14px;z-index:99;pointer-events:none;border-radius:2px}
+.rv{opacity:0;translate:0 60px;rotate:-5deg;scale:.8;transition:opacity .6s,translate .8s cubic-bezier(.34,1.56,.64,1),rotate .8s cubic-bezier(.34,1.56,.64,1),scale .8s cubic-bezier(.34,1.56,.64,1)}
+.rv.in{opacity:1;translate:0 0;rotate:0deg;scale:1}
+.rv.l{translate:-60px 0}.rv.r{translate:60px 0}.rv.l.in,.rv.r.in{translate:0 0}
+.torn>.rv,.green>.rv{translate:0 24px;rotate:0deg;scale:.9}.torn>.rv.in,.green>.rv.in{translate:0 0;scale:1}
+.wrap:active .torn{translate:3px 3px;box-shadow:2px 2px 0 var(--ink)}
+@media (prefers-reduced-motion:reduce){.rv,.rv.l,.rv.r{opacity:1;translate:none;rotate:0deg;scale:1;transition:none}.seal,.tag,.stk,.tape span,.cal .on::before{animation:none}}
 </style>
 </head>
 <body class="locked">
@@ -182,7 +229,7 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
   </div></div>
   <div class="tag" style="right:18px;top:55px">TANDA<br>KASIH</div>
   <div class="wrap tilt2" style="margin-top:1.3rem"><div class="torn">
-   <h2>Hadiah Pernikahan</h2>
+   <h2>Transfer</h2>
    <div class="acc"><p class="sans">BSI · Zain Zaidan Ahsan</p><p class="num">7339557254</p><button class="btn" data-copy="7339557254">Salin nomor</button></div>
    <div class="acc"><p class="sans">BSI · Devia Maharani Artono</p><p class="num">7200217432</p><button class="btn" data-copy="7200217432">Salin nomor</button></div>
    <p class="copied" id="copied" role="status"></p>
@@ -244,6 +291,28 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
  try{await navigator.clipboard.writeText(b.dataset.copy);$("#copied").textContent="Nomor rekening disalin."}
  catch(e){$("#copied").textContent="Gagal menyalin. Salin nomor secara manual."}});
 $("#rsvp").href=`https://wa.me/${CFG.wa}?text=`+encodeURIComponent(`Assalamualaikum, saya ${to||"Tamu"} mengonfirmasi kehadiran di pernikahan Zain & Devia pada 12 Januari 2027.`);
+
+/* ===== PLAYFUL JS ===== */
+const COL=["#ff7a59","#ffd23f","#ffb3c7","#cfe8b8","#fff"];
+function boom(x,y,n=34){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ for(let i=0;i<n;i++){const p=document.createElement("i");p.className="pc";p.style.background=COL[i%5];p.style.left=x+"px";p.style.top=y+"px";document.body.appendChild(p);
+  const a=Math.random()*Math.PI*2,d=70+Math.random()*130;
+  p.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+90}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.7,.3,1)"}).onfinish=()=>p.remove()}}
+$("#openBtn").addEventListener("click",e=>boom(e.clientX,e.clientY,50));
+document.querySelectorAll("[data-copy],.btn").forEach(b=>b.addEventListener("click",e=>boom(e.clientX,e.clientY,22)));
+const SH=[c=>`<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.8-8 11-8 11z" fill="${c}"/>`,
+ c=>`<path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z" fill="${c}"/>`,
+ c=>`<g fill="${c}"><circle cx="12" cy="5" r="4"/><circle cx="19" cy="10" r="4"/><circle cx="16" cy="19" r="4"/><circle cx="8" cy="19" r="4"/><circle cx="5" cy="10" r="4"/></g><circle cx="12" cy="12" r="3.5" fill="#ffd23f"/>`];
+const main=document.querySelector("main");
+[...main.querySelectorAll("section")].forEach((sec,i)=>{if(!i)return;
+ const k=document.createElementNS("http://www.w3.org/2000/svg","svg");k.setAttribute("viewBox","0 0 24 24");k.setAttribute("class","stk");
+ k.setAttribute("stroke","#2a2a25");k.setAttribute("stroke-width","1.6");k.setAttribute("stroke-linejoin","round");k.innerHTML=SH[i%3](COL[i%4]);
+ k.style.top=(4+(i*13)%30)+"px";k.style[i%2?"right":"left"]="6px";k.style.animationDelay=(-i*.7)+"s";sec.appendChild(k)});
+const mk=(t,c)=>{const d=document.createElement("div");d.className="tape "+c;d.setAttribute("aria-hidden","true");const x=(t+" &nbsp;✦&nbsp; ").repeat(8);d.innerHTML=`<span>${x}</span>`;return d};
+const secs=main.querySelectorAll("section");
+secs[1].after(mk("ZAIN &amp; DEVIA","a"));secs[4].after(mk("12 JANUARI 2027 · SAVE THE DATE","b"));
+let last=[];const _t=document.querySelectorAll("#count span");
+setInterval(()=>_t.forEach((e,i)=>{if(last[i]!==e.textContent){if(last[i]!==undefined&&e.animate)e.animate([{transform:"scale(1.35) rotate(-6deg)"},{transform:"none"}],{duration:380,easing:"cubic-bezier(.34,1.56,.64,1)"});last[i]=e.textContent}}),250);
 </script>
 </body>
 </html>
