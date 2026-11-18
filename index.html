@@ -10,8 +10,8 @@
 <style>
 :root{--olive:#5d6b3b;--olive-d:#4a5730;--paper:#fdfcf8;--stone:#d3d1cb;--ink:#2a2a25;
 --serif:'Cormorant Garamond',Georgia,serif;--script:'Pinyon Script',cursive;--sans:'Montserrat',Arial,sans-serif;
---toile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='380'%3E%3Cg fill='none' stroke='%23918f87' stroke-opacity='.45' stroke-width='1.2'%3E%3Cpath d='M40 380c4-90 2-150 10-200M50 190c-40-10-50-60-20-90 10-30 50-35 70-10 30 5 35 50 10 70-15 20-40 30-60 30zM30 110c20 10 30 30 50 25M60 150c15-5 30 0 40 15'/%3E%3Cpath d='M220 380c-3-70 0-120-8-170M212 210c40-5 70-40 55-80-5-35-45-50-75-30-35 0-50 40-30 70 10 25 30 35 50 40zM200 150c15 10 35 8 50-5M190 190c20-5 40 0 55 10'/%3E%3Cpath d='M120 380c20-20 60-25 100-15M0 330c40-15 90-10 130 5M150 340c30-10 90-5 150 8M100 60c20-25 60-30 90-10'/%3E%3C/g%3E%3C/svg%3E")}
-.strip::before{content:"";position:absolute;inset:0;background:url("https://commons.wikimedia.org/wiki/Special:FilePath/Hubert_Robert_-_Inhabited_Ruins_-_WGA19584.jpg?width=900") center top/cover;filter:grayscale(1) contrast(.85) brightness(1.15);opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+}
+.strip::before{content:"";position:absolute;inset:0;background:url("https://commons.wikimedia.org/wiki/Special:FilePath/Spruce_forest_at_Holma.jpg?width=1000") center/cover;filter:grayscale(.55) brightness(1.2) contrast(.85);opacity:.55;mix-blend-mode:multiply;pointer-events:none}
 .arch{position:relative}.arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 65%}
 .credit{font-family:var(--sans);font-size:.5rem;opacity:.6;margin-top:1.2rem;letter-spacing:.05em}
 *{box-sizing:border-box;margin:0}
@@ -19,7 +19,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--serif);color:var(--ink);font-size:1.1rem;line-height:1.55;background:#4f5d33;display:flex;justify-content:center}
 body.locked{overflow:hidden;height:100vh}
 .strip{width:100%;max-width:420px;position:relative;overflow:hidden;padding:2.5rem 0 3rem;
- background:var(--toile),repeating-linear-gradient(45deg,#0000 0 5px,#00000008 5px 6px),var(--stone)}
+ background:var(--stone)}
 .strip>section{position:relative;padding:1.3rem 1.5rem;display:flex;flex-direction:column;align-items:center;text-align:center}
 .wrap{filter:drop-shadow(0 3px 4px #0003);width:100%;position:relative}
 .torn{background:var(--paper);padding:1.8rem 1.4rem;
@@ -51,7 +51,8 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
 .player{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin-top:.8rem;color:var(--olive)}
 .player button{background:none;border:0;color:inherit;cursor:pointer;font-size:1.1rem}
 .player .play{width:38px;height:38px;border-radius:50%;background:var(--olive);color:#fff;font-size:.9rem}
-.bar{height:2px;background:#0002;width:80%;margin:.8rem auto 0;position:relative}.bar::before{content:"";position:absolute;left:0;top:0;height:2px;width:25%;background:var(--olive)}
+.bar{height:2px;background:#0002;width:80%;margin:.8rem auto 0;position:relative}.bar::before{content:"";position:absolute;left:0;top:0;height:2px;width:var(--p,0%);background:var(--olive)}
+.player .off{opacity:.35}
 /* nama */
 .letter{position:absolute;right:-8px;top:40px;width:70%;height:78%;background:#efe9d3 repeating-linear-gradient(#0000 0 9px,#8a7a5a55 9px 10px);transform:rotate(2deg);z-index:0}
 .names .script{font-size:3rem}
@@ -90,7 +91,7 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
  <div class="strip">
   <div class="script" style="font-size:2.3rem">Zain &amp; Devia</div>
   <div class="envarch">
-   <div class="arch"><svg viewBox="0 0 200 170" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9bf98"/><stop offset="1" stop-color="#e6e0c0"/></linearGradient></defs><rect width="200" height="170" fill="url(#sk)"/><path d="M0 130c50-25 120-20 200 0v40H0z" fill="#6f7a45"/><g fill="#434f2a"><path d="M40 170c2-40 0-60 4-80" stroke="#3a3520" stroke-width="5" fill="none"/><ellipse cx="42" cy="78" rx="34" ry="30"/><path d="M150 170c-2-30 0-50-3-70" stroke="#3a3520" stroke-width="4" fill="none"/><ellipse cx="148" cy="88" rx="30" ry="26"/></g><ellipse cx="95" cy="110" rx="26" ry="20" fill="#5a6837"/></svg><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hubert_Robert_-_An_extensive_landscape_near_Paris_-_Google_Art_Project.jpg?width=700" alt="" loading="lazy" onerror="this.remove()"></div>
+   <div class="arch"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hubert_Robert_-_An_extensive_landscape_near_Paris_-_Google_Art_Project.jpg?width=700" alt="" loading="lazy" onerror="this.remove()"></div>
    <div class="envbody"><button class="seal" id="openBtn" aria-label="Buka undangan">Z&amp;D</button></div>
   </div>
   <p class="sm it" style="margin-top:.8rem">Kepada Yth.</p>
@@ -106,9 +107,9 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
   <div class="wrap tilt1"><div class="torn" style="text-align:center">
    <p class="sm">Ketuk play untuk mendengarkan lagu kami</p>
    <div class="bar"></div>
-   <div class="player"><button aria-label="Acak">⤨</button><button aria-label="Sebelumnya">⏮</button><button class="play" id="play" aria-label="Putar musik">▶</button><button aria-label="Berikutnya">⏭</button><button aria-label="Ulangi">⟲</button></div>
+   <div class="player"><button id="prev" aria-label="Ulang dari awal">⏮</button><button class="play" id="play" aria-label="Putar musik">▶</button><button id="loop" aria-label="Ulangi lagu">⟲</button></div>
   </div></div>
-  <audio id="song" loop></audio>
+  <audio id="song" loop preload="auto"></audio>
  </section>
 
  <!-- nama -->
@@ -118,7 +119,7 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
   <div class="wrap tilt2" style="width:78%;align-self:flex-start"><div class="torn names">
    <p class="sm it">“Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri.”<br>QS. Ar-Rum: 21</p>
    <p class="sans" style="margin:.9rem 0">Dengan rahmat Allah SWT, kami mengundang Anda pada pernikahan</p>
-   <div class="script">Zain</div><span class="amp">&amp;</span><div class="script">Devia</div>
+   <div class="script">Zain Zaidan Ahsan</div><span class="amp">&amp;</span><div class="script">Devia Maharani Artono</div>
    <p class="sm" style="margin-top:.8rem">Putra dari Bp. Ahmad Iksanudin &amp; Ibu Kristianah<br>dengan<br>Putri dari Bp. Wartono Suprayitno &amp; Ibu Muslimah</p>
   </div></div>
   <div class="tag" style="bottom:20px;left:34%;width:40px;height:40px;outline:0"></div>
@@ -182,7 +183,7 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
  <!-- RSVP -->
  <section>
   <div class="envarch" style="margin-top:1rem">
-   <div class="arch" style="height:150px"><svg viewBox="0 0 200 150" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="200" height="150" fill="#cfcfa9"/><path d="M0 110c50-20 120-15 200 0v40H0z" fill="#6f7a45"/><ellipse cx="50" cy="70" rx="38" ry="32" fill="#434f2a"/><ellipse cx="150" cy="75" rx="32" ry="28" fill="#4d5a30"/></svg><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hubert_Robert_-_An_extensive_landscape_near_Paris_-_Google_Art_Project.jpg?width=700" alt="" loading="lazy" onerror="this.remove()"></div>
+   <div class="arch" style="height:150px"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hubert_Robert_-_An_extensive_landscape_near_Paris_-_Google_Art_Project.jpg?width=700" alt="" loading="lazy" onerror="this.remove()"></div>
    <div class="envbody" style="height:170px;margin-top:-6px;align-items:flex-end;justify-content:center;padding-bottom:1rem">
     <div class="wrap" style="position:absolute;left:12px;right:12px;top:-60px"><div class="torn" style="padding:1rem .8rem;clip-path:none;border-radius:3px">
      <p class="sans" style="font-size:.7rem">Konfirmasi Kehadiran</p>
@@ -194,22 +195,26 @@ h2{font-weight:400;font-size:1.35rem;letter-spacing:.08em;margin-bottom:.6rem}
   </div>
   <p class="script" style="font-size:2.3rem;margin-top:1.6rem">Zain &amp; Devia</p>
   <p class="sm it">Terima kasih atas doa dan kehadiran Anda.</p>
-  <p class="credit">Lukisan: Hubert Robert (domain publik), via Wikimedia Commons</p>
+  <p class="credit">Lukisan: Hubert Robert (domain publik). Foto latar: Spruce forest at Holma (CC0). Via Wikimedia Commons</p>
  </section>
 </main>
 
 <script>
 /* ====== PENGATURAN ====== */
-const CFG={date:"2027-01-12",time:"11:00",wa:"6281234567890",song:""}; // song: "lagu.mp3" bila ada
+const CFG={date:"2027-01-12",time:"11:00",wa:"6281234567890",song:"music.mp3"}; // file lagu di repo, satu folder dengan index.html
 /* ======================== */
 const $=s=>document.querySelector(s);
 const to=new URLSearchParams(location.search).get("to");
 if(to)$("#guest").textContent=to;
-const au=$("#song");if(CFG.song)au.src=CFG.song;
+const au=$("#song"),pl=$("#play"),bar=document.querySelector(".bar");au.src=CFG.song;
+const sync=()=>pl.textContent=au.paused?"▶":"❚❚";
+au.addEventListener("play",sync);au.addEventListener("pause",sync);
+au.addEventListener("timeupdate",()=>{if(au.duration)bar.style.setProperty("--p",(au.currentTime/au.duration*100)+"%")});
 $("#openBtn").onclick=()=>{$("#cover").classList.add("open");document.body.classList.remove("locked");
- if(CFG.song)au.play().then(()=>$("#play").textContent="❚❚").catch(()=>{});
- setTimeout(()=>$("#cover").style.display="none",1200)};
-$("#play").onclick=()=>{if(!CFG.song)return;if(au.paused){au.play();$("#play").textContent="❚❚"}else{au.pause();$("#play").textContent="▶"}};
+ au.play().catch(()=>{});setTimeout(()=>$("#cover").style.display="none",1200)};
+pl.onclick=()=>au.paused?au.play().catch(()=>{}):au.pause();
+$("#prev").onclick=()=>{au.currentTime=0};
+$("#loop").onclick=e=>{au.loop=!au.loop;e.currentTarget.classList.toggle("off",!au.loop)};
 const [Y,M,D]=CFG.date.split("-").map(Number);
 let h="";["MIN","SEN","SEL","RAB","KAM","JUM","SAB"].forEach(d=>h+=`<span class="h">${d}</span>`);
 for(let i=0;i<new Date(Y,M-1,1).getDay();i++)h+="<span></span>";
