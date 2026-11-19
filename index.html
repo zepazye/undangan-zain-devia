@@ -111,7 +111,6 @@ h2{font-family:var(--ps);font-size:12px;line-height:1.8;margin-bottom:.7rem;font
 <body class="locked">
 
 <div id="cover">
- <button class="btn" id="mute" type="button" style="position:absolute;top:10px;right:10px;margin:0;padding:.45rem .55rem;z-index:3">Suara: ON</button>
  <div class="cv-top"><p class="lb">The Wedding of</p><div class="tt">Zain &amp; Devia</div><p class="dt">12 . 01 . 2027</p></div>
  <svg id="scene" viewBox="0 0 680 440" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Ilustrasi pixel art pengantin bergandengan tangan bersama kucing oren di bawah lengkungan bunga" shape-rendering="crispEdges"></svg>
  <div class="cv-bot"><div class="wrap"><div class="pb">
@@ -215,7 +214,7 @@ h2{font-family:var(--ps);font-size:12px;line-height:1.8;margin-bottom:.7rem;font
 
 <script>
 /* ====== PENGATURAN ====== */
-const CFG={date:"2027-01-12",time:"11:00",wa:"6281234567890",song:"music.mp3"}; // file lagu di repo, satu folder dengan index.html
+const CFG={date:"2027-01-12",time:"11:00",wa:"6281234567890",song:"music.mp3",cover:"music_cover.mp3"}; // nama file audio di repo (satu folder dengan index.html): song = lagu utama, cover = backsound sampul
 /* ======================== */
 const $=s=>document.querySelector(s);
 
@@ -300,30 +299,22 @@ const sync=()=>{pl.innerHTML=ic(au.paused?IC.play:IC.pause);pl.setAttribute("ari
 au.addEventListener("play",sync);au.addEventListener("pause",sync);
 au.addEventListener("timeupdate",()=>{if(au.duration)bar.style.setProperty("--p",(au.currentTime/au.duration*100)+"%")});
 $("#openBtn").onclick=()=>{$("#cover").classList.add("open");document.body.classList.remove("locked");
- chipStop();au.play().catch(()=>{});setTimeout(()=>$("#cover").style.display="none",1300)};
+ cvStop();au.play().catch(()=>{});setTimeout(()=>$("#cover").style.display="none",1300)};
 pl.onclick=()=>au.paused?au.play().catch(()=>{}):au.pause();
 $("#prev").onclick=()=>{au.currentTime=0};
 $("#loop").onclick=e=>{au.loop=!au.loop;e.currentTarget.classList.toggle("off",!au.loop)};
 
 
-/* ---------- backsound sampul: chiptune retro (dibuat langsung di browser) ---------- */
-let ac=null,chip=null,opened=false,muted=false;
-const LEAD=[72,76,79,76,72,76,79,84, 71,74,79,74,71,74,79,83, 72,76,81,76,72,76,81,84, 69,72,77,72,69,72,77,81];
-const BASS=[48,43,45,41];
-function note(t,m,d,type,v){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=440*2**((m-69)/12);
- g.gain.setValueAtTime(v,t);g.gain.setValueAtTime(v,t+d*.6);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g);g.connect(chip.m);o.start(t);o.stop(t+d+.02)}
-function chipStart(){if(chip||opened)return;try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}
- const m=ac.createGain();m.gain.value=muted?0:.55;m.connect(ac.destination);
- let i=0,t=ac.currentTime+.1;
- const id=setInterval(()=>{while(t<ac.currentTime+.4){const b=i%32,r=BASS[b>>3],s=b&7;
-  note(t,LEAD[b],.17,"square",.06);
-  if(s%2===0)note(t,[r,r+12,r,r+7][s>>1],.3,"triangle",.16);
-  t+=.19;i++}},100);
- chip={m,id}}
-function chipStop(){opened=true;if(!chip)return;const{m,id}=chip;clearInterval(id);m.gain.cancelScheduledValues(ac.currentTime);m.gain.setValueAtTime(m.gain.value,ac.currentTime);m.gain.linearRampToValueAtTime(0,ac.currentTime+.5);setTimeout(()=>{try{ac.close()}catch(e){}},900);chip=null}
-chipStart();
-["pointerdown","keydown","touchstart"].forEach(ev=>document.addEventListener(ev,()=>{if(!opened){if(!chip)chipStart();if(ac&&ac.state==="suspended")ac.resume()}},{passive:true}));
-$("#mute").onclick=e=>{e.stopPropagation();muted=!muted;if(chip)chip.m.gain.value=muted?0:.55;e.currentTarget.textContent="Suara: "+(muted?"OFF":"ON")};
+/* ---------- backsound sampul (file dari repo, otomatis & berulang) ---------- */
+let opened=false;
+const cva=new Audio(CFG.cover);cva.loop=true;cva.preload="auto";cva.volume=.7;
+let cvOn=false;
+const EVS=["pointerup","touchend","click","keydown","scroll"];
+const cvOff=()=>EVS.forEach(e=>document.removeEventListener(e,cvPlay));
+function cvPlay(){if(opened||cvOn)return;const p=cva.play();if(p&&p.then)p.then(()=>{cvOn=true;cvOff()}).catch(()=>{})}
+EVS.forEach(e=>document.addEventListener(e,cvPlay,{passive:true}));
+cvPlay(); // coba langsung; kalau diblokir browser, mulai di sentuhan pertama
+function cvStop(){opened=true;cvOff();let v=cva.volume;const id=setInterval(()=>{v=Math.max(0,v-.08);try{cva.volume=v}catch(e){}if(v<=0){clearInterval(id);cva.pause()}},60)}
 
 /* ---------- kalender, hitung mundur, salin, RSVP ---------- */
 const [Y,M,D]=CFG.date.split("-").map(Number);
