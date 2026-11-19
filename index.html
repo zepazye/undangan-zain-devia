@@ -39,6 +39,9 @@ h2{font-family:var(--ps);font-size:12px;line-height:1.8;margin-bottom:.7rem;font
 .cv-top{text-align:center;padding:3.4rem 1rem .6rem}
 .cv-top .lb{margin-bottom:.4rem}
 .cv-top .tt{font-size:clamp(1.9rem,9vw,2.4rem);font-weight:600;line-height:1.1;text-shadow:3px 3px 0 var(--rose)}
+.cv-snd{position:absolute;top:.8rem;right:.8rem;width:40px;height:40px;padding:7px;background:var(--paper);border:3px solid var(--ink);color:var(--ink);cursor:pointer;z-index:2}
+.cv-snd svg{width:100%;height:100%;fill:currentColor;display:block}
+#cvHint{margin-top:.5rem;opacity:.75;transition:opacity .4s}#cvHint.hide{opacity:0}
 .cv-top .dt{font-family:var(--ps);font-size:10px;margin-top:.6rem;letter-spacing:.2em;color:var(--olive)}
 #scene{flex:1;min-height:0;width:100%}
 .cv-bot{background:var(--grass);padding:.2rem 1rem 1.2rem;text-align:center;border-top:0}
@@ -111,7 +114,8 @@ h2{font-family:var(--ps);font-size:12px;line-height:1.8;margin-bottom:.7rem;font
 <body class="locked">
 
 <div id="cover">
- <div class="cv-top"><p class="lb">The Wedding of</p><div class="tt">Zain &amp; Devia</div><p class="dt">12 . 01 . 2027</p></div>
+ <button class="cv-snd" id="cvSnd" type="button" aria-label="Nyalakan musik"></button>
+ <div class="cv-top"><p class="lb">The Wedding of</p><div class="tt">Zain &amp; Devia</div><p class="dt">12 . 01 . 2027</p><p class="lb" id="cvHint">Ketuk layar untuk menyalakan musik</p></div>
  <svg id="scene" viewBox="0 0 680 440" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Ilustrasi pixel art pengantin bergandengan tangan bersama kucing oren di bawah lengkungan bunga" shape-rendering="crispEdges"></svg>
  <div class="cv-bot"><div class="wrap"><div class="pb">
   <p class="lb">Kepada Yth.</p>
@@ -305,15 +309,29 @@ $("#prev").onclick=()=>{au.currentTime=0};
 $("#loop").onclick=e=>{au.loop=!au.loop;e.currentTarget.classList.toggle("off",!au.loop)};
 
 
-/* ---------- backsound sampul (file dari repo, otomatis & berulang) ---------- */
+/* ---------- backsound sampul (music_cover.mp3) ----------
+   Browser melarang suara otomatis sebelum ada interaksi. Karena itu musik dimulai
+   senyap saat halaman terbuka, lalu otomatis bersuara pada sentuhan/klik pertama
+   di sampul (selain tombol Buka Undangan). Tombol speaker di pojok kanan atas juga bisa dipakai. */
 let opened=false;
 const cva=new Audio(CFG.cover);cva.loop=true;cva.preload="auto";cva.volume=.7;
-let cvOn=false;
-const EVS=["pointerup","touchend","click","keydown","scroll"];
-const cvOff=()=>EVS.forEach(e=>document.removeEventListener(e,cvPlay));
-function cvPlay(){if(opened||cvOn)return;const p=cva.play();if(p&&p.then)p.then(()=>{cvOn=true;cvOff()}).catch(()=>{})}
-EVS.forEach(e=>document.addEventListener(e,cvPlay,{passive:true}));
-cvPlay(); // coba langsung; kalau diblokir browser, mulai di sentuhan pertama
+const snd=$("#cvSnd"),hint=$("#cvHint");
+const SPK={on:["...k....","..kk..k.",".kkk.k.k","kkkk.k.k","kkkk.k.k",".kkk.k.k","..kk..k.","...k...."],
+ off:["...k....","..kk.k.k",".kkk..k.","kkkk.k.k","kkkk.k.k",".kkk..k.","..kk.k.k","...k...."]};
+const heard=()=>!cva.paused&&!cva.muted;
+function cvUI(){const on=heard();snd.innerHTML=ic(on?SPK.on:SPK.off);snd.setAttribute("aria-label",on?"Matikan musik":"Nyalakan musik");hint.classList.toggle("hide",on)}
+const EVS=["pointerup","touchend","keydown"];
+const cvOff=()=>EVS.forEach(e=>document.removeEventListener(e,cvGesture,true));
+function cvGesture(e){
+ if(opened||(e.target.closest&&e.target.closest("#openBtn,#cvSnd")))return;
+ cva.muted=false;const p=cva.play();
+ if(p&&p.then)p.then(()=>{cvOff();cvUI()}).catch(()=>{});else{cvOff();cvUI()}}
+EVS.forEach(e=>document.addEventListener(e,cvGesture,{capture:true,passive:true}));
+snd.onclick=()=>{if(heard()){cva.muted=true}else{cva.muted=false;cva.play().catch(()=>{})}cvOff();cvUI()};
+cva.addEventListener("play",cvUI);cva.addEventListener("volumechange",cvUI);cva.addEventListener("pause",cvUI);
+cvUI();
+// 1) coba langsung dengan suara; 2) jika diblokir, jalan senyap dulu (diizinkan) lalu bersuara saat sentuhan pertama
+cva.play().catch(()=>{cva.muted=true;cva.play().catch(()=>{}).finally(cvUI)});
 function cvStop(){opened=true;cvOff();let v=cva.volume;const id=setInterval(()=>{v=Math.max(0,v-.08);try{cva.volume=v}catch(e){}if(v<=0){clearInterval(id);cva.pause()}},60)}
 
 /* ---------- kalender, hitung mundur, salin, RSVP ---------- */
